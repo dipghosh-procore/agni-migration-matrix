@@ -27,13 +27,10 @@ enum Commands {
     }
 }
 
-#[tokio::main]
-async fn main() {
+fn main() {
     config::load_config();
     let db_url = std::env::var("DATABASE_URL").expect("DATABASE_URL must be set");
     
-
-
     let args = Args::parse();
 
     match args.cmd {
@@ -57,7 +54,7 @@ async fn main() {
             println!("{}", filename);
             let mut filename = filename.clone();
 
-            migrate::apply_migration(&mut client, &mut filename).await.expect("Failed to apply migration");
+            migrate::apply_migration(&mut client, &mut filename).expect("Failed to apply migration");
             drop(client);
         }
     }
