@@ -8,7 +8,7 @@ pub fn database_connection(db_url: &str) -> Result<Client, Error> {
 pub fn create_database(client: &mut Client, db_name: String) -> Result<(), Error> {
     let query = format!("CREATE DATABASE {}", db_name);
     client.batch_execute(&query)?;
-    println!("INFO :: Creating database successful");
+    println!("INFO :: Creating database successful {}", db_name);
     Ok(())
 }
 
@@ -17,10 +17,9 @@ pub fn drop_database(client: &mut Client, db_name: String) -> Result<(), Error> 
 
     let query = format!("DROP DATABASE {}", db_name);
     client.batch_execute(&query)?;
-    println!("INFO :: Drop database successful");
+    println!("INFO :: Drop database successful {}",db_name);
     Ok(())
 }
-
 
 
 fn terminate_connections(client: &mut Client, db_name: String) -> Result<(), Error> {

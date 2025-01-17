@@ -1,6 +1,11 @@
 mod config;
 mod db;
+mod migrate;
 use clap::{Parser, Subcommand};
+use tokio::runtime::Runtime;
+
+
+
 #[derive(Parser, Debug)]
 #[command(author, version, about, long_about = None)]
 struct Args {
@@ -16,6 +21,9 @@ enum Commands {
 
     Drop{
         db_name: String,
+    },
+    Migrate{
+        filename: String,
     }
 }
 
@@ -39,6 +47,16 @@ fn main() {
         Commands::Drop { db_name } => {
             println!("Droping database: {}", db_name);
             db::drop_database(&mut client, db_name).expect("Failed to drop database");
+        }
+
+        Commands::Migrate { filename } => {
+            println!("{}", filename);
+            let rt = Runtime::new().unwrap();
+            let mut filename = filename.clone();
+
+            rt.block_on(migrate::apply_migration(&mut client,  &mut filename))
+            .expect("Failed to apply migration");
+
         }
     }
 }
