@@ -3,7 +3,7 @@ use async_std::fs as async_fs;  // Async file handling from async-std
 
 
 fn get_migration_file_path(file_name:  &mut String) -> String {
-    format!("migrate/{}.sql", file_name)  // Returns the full path to the SQL file
+    format!("migrations/{}.sql", file_name)  // Returns the full path to the SQL file
 }
 
 
