@@ -4,3 +4,8 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+async-std = "1.13.0"
+clap = "4.5.26"
+dotenv = "0.15.0"
+postgres = "0.19.9"
+tokio = "1.43.0"
