@@ -30,8 +30,9 @@ fn main() -> Result<(), String> {
     //     }
     // }
 
-    let db_url = "postgres://username:password@127.0.0.1:5432/testdb";
+    let db_url = "postgresql://postgres:postgres@127.0.0.1:5432/procore_development";
     let app_name = "RustMigrationTool";
+    // postgresql://postgres:postgres@127.0.0.1:5432/procore_development?prepared_statements=false
 
     let config = Config::parse_db_url(db_url, app_name)
         .map_err(|err|  format!("Error parsing {}", err))?; 
