@@ -1,7 +1,7 @@
 use crate::config::Config as Config;
 use std::net::TcpStream;
-use crate::database::protocol;
-use std::io::{Read, Write};
+// use crate::database::protocol;
+use crate::database::authenticate;
 
 
 pub fn check_config(config: &Config) {
@@ -18,19 +18,14 @@ pub fn check_config(config: &Config) {
     }
 }
 
-pub fn connect(config: &Config) -> Result<TcpStream, String> {
+pub fn connect(config: &Config) -> Result<(), String> {
 
     let mut conn = TcpStream::connect((config.host.clone(), config.port)).map_err(|e| format!("failed to connect to {}", e))?;
     println!("Connected to {}:{}", config.host, config.port);
     // Ok(())
+    authenticate::send_startup_message(&mut conn, &config)?;
+    // Handle authentication
+    authenticate::handle_authentication(&mut conn, &config)?;
+    Ok(())
 
-    let start_mesage = protocol::start_up_protocol_message(&config);
-    conn.write_all(&start_mesage).map_err(|e| format!("Failed to send startup message: {}", e))?;
-
-    let mut buffer = [0; 1024];
-    let bytes_read = conn
-        .read(&mut buffer)
-        .map_err(|e| format!("Failed to read server response: {}", e))?;
-
-    protocol::handle_server_response(&buffer[..bytes_read], &mut conn)
 }

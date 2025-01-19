@@ -30,7 +30,7 @@ fn main() -> Result<(), String> {
     //     }
     // }
 
-    let db_url = "postgresql://postgres:postgres@127.0.0.1:5432/procore_development";
+    let db_url = "postgresql://postgres:dipghosh099@127.0.0.1:5432/cosmos";
     let app_name = "RustMigrationTool";
     // postgresql://postgres:postgres@127.0.0.1:5432/procore_development?prepared_statements=false
 
