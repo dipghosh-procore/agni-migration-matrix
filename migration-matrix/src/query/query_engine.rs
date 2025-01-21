@@ -26,6 +26,8 @@ impl QueryEngine {
         message.extend(query.as_bytes()); // Add the query bytes
         message.push(0x00); // Null-terminate the query
 
+        println!("Query message: {:?}", message);
+        println!("Query message: {}", length);
 
         self.stream
                 .write_all(&message)

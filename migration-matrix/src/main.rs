@@ -45,7 +45,7 @@ fn main() -> Result<(), String> {
     let mut query_engine =  query_engine::QueryEngine::new(conn.unwrap());
 
     let queries = vec![
-        "select 1 + 1"
+        "select 1+1"
     ];
 
     for query in queries {
