@@ -18,14 +18,12 @@ pub fn check_config(config: &Config) {
     }
 }
 
-pub fn connect(config: &Config) -> Result<(), String> {
+pub fn connect(config: &Config) -> Result<TcpStream, String> {
 
     let mut conn = TcpStream::connect((config.host.clone(), config.port)).map_err(|e| format!("failed to connect to {}", e))?;
     println!("Connected to {}:{}", config.host, config.port);
-    // Ok(())
     authenticate::send_startup_message(&mut conn, &config)?;
     // Handle authentication
     authenticate::handle_authentication(&mut conn, &config)?;
-    Ok(())
-
+    Ok(conn)
 }

@@ -1,8 +1,10 @@
 // use clap::{Parser, Subcommand};
 mod config;
 mod database;
+mod query;
 
 use database::tcp_conn;
+use query::query_engine;
 use config::Config as Config;
 
 // #[derive(Parser, Debug)]
@@ -38,10 +40,19 @@ fn main() -> Result<(), String> {
         .map_err(|err|  format!("Error parsing {}", err))?; 
 
     tcp_conn::check_config(&config); 
-    match tcp_conn::connect(&config) {
-        Ok(_) => println!("Database connection established successfully."),
-        Err(err) => eprintln!("Error: {}", err),
+    // 
+    let conn= tcp_conn::connect(&config).map_err(|err| format!("Error connecting to database: {}", err));
+    let mut query_engine =  query_engine::QueryEngine::new(conn.unwrap());
+
+    let queries = vec![
+        "select 1 + 1"
+    ];
+
+    for query in queries {
+        if let Err(err) = query_engine.send_query(query) {
+            eprintln!("Query failed: {}", err);
+        }
     }
-    
+
     Ok(())
 }
