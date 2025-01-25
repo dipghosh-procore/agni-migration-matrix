@@ -1,5 +1,5 @@
 [package]
-name = "migration-matrix"
+name = "storage-matrix"
 version = "0.1.0"
 edition = "2021"
 
