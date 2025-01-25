@@ -1,4 +1,4 @@
-use crate::schema_parser::SchemaParser;
+use crate::schema_parser::schema::Schema as SchemaParser;
 
 pub trait SqlGenerator {
     fn generate_create_table_sql(&self) -> Vec<String>;
