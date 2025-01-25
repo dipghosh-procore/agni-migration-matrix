@@ -11,8 +11,8 @@ pub struct Column {
 
 
 impl Column {
-    pub fu generate_column(&self) -> String {
-        let mut column =  format!("{} {}", self.name, self.data_type)
+    pub fn generate_column_sql(&self) -> String {
+        let mut column =  format!("{} {}", self.name, self.data_type);
 
         if !self.unwrap().is_nullable(false) {
             column.push_str("NOT NULL")
