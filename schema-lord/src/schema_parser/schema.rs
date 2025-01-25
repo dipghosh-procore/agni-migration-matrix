@@ -1,5 +1,5 @@
 use serde::Deserialize;
-use crate::schema::table::Table;
+use crate::schema_parser::table::Table;
 use std::fs;
 
 #[derive(Debug, Deserialize)]

@@ -13,9 +13,9 @@ pub struct Index {
 
 impl Index {
 
-    pub fn create(self, table_name: &str) -> String {
+    pub fn create(&self, table_name: &str) -> String {
         let unique = if self.unique.unwrap_or(false) { "UNIQUE" } else { "" };
-        let mut index = format!("CREATE {} INDEX {} ON {} ({})", self.name, unique, table_name, self.columns.join(","));
-        index;
+        let index = format!("CREATE {} INDEX {} ON {} ({})", self.name, unique, table_name, self.columns.join(","));
+        index
     }
 }

@@ -14,15 +14,15 @@ impl Column {
     pub fn generate_column_sql(&self) -> String {
         let mut column =  format!("{} {}", self.name, self.data_type);
 
-        if !self.unwrap().is_nullable(false) {
+        if !self.is_nullable.unwrap_or(false) {
             column.push_str("NOT NULL")
         }
 
-        if self.unwrap().is_primary(true) {
+        if self.is_primary.unwrap_or(true) {
             column.push_str("PRIMARY KEY")
         }
 
-        if Some(default) = self.default {
+        if let Some(default) = &self.default {
             column.push_str(format!("DEFAULT {}", default).as_str())
         }
 
