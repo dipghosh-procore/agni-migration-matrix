@@ -1,0 +1,34 @@
+tables:
+  - name: users
+    columns:
+      - name: id
+        type: SERIAL
+        primary_key: true
+      - name: username
+        type: VARCHAR(50)
+        unique: true
+        not_null: true
+      - name: email
+        type: VARCHAR(100)
+        not_null: true
+      - name: created_at
+        type: TIMESTAMP
+        default: "CURRENT_TIMESTAMP"
+    indexes:
+      - columns: [username, email]
+        unique: true
+
+  - name: orders
+    columns:
+      - name: id
+        type: SERIAL
+        primary_key: true
+      - name: user_id
+        type: INT
+        foreign_key:
+          table: users
+          column: id
+      - name: order_date
+        type: DATE
+    indexes:
+      - columns: [user_id]
