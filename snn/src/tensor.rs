@@ -1,4 +1,5 @@
 use rand::Rng;
+use std::{ops::{Add, Mul}, process::Output};
 
 
 #[derive(Debug)]
@@ -50,4 +51,53 @@ impl Tensor {
         }
         Tensor::new(transpose_data, vec![cols, rows])
     }
-}   
+}
+
+
+impl  Add for Tensor {
+
+    type Output = Tensor;
+    
+    fn add(self, other: Self) -> Self::Output {
+
+        assert_eq!(self.data.len(), other.data.len(), "Tensor must have the same length");
+        let (rows, cols) = (self.shape[0], self.shape[1]);
+
+        let mut sum = vec![vec![self.data[0][0]; cols]; rows]; 
+
+        for i in 0..rows {
+            for j in 0..cols {
+                sum[i][j] =  self.data[i][j] + other.data[i][j];
+            }
+        }
+        Tensor::new(sum, vec![rows, cols])
+    }
+}
+
+
+impl Mul for Tensor {
+    type Output = Tensor;
+
+    fn mul(self, rhs: Self) -> Self::Output {
+        let (lhs_row, rhs_cols) = (self.data.len(), rhs.data[0].len());
+        assert_eq!(lhs_row, rhs_cols, "Matrix dimention misamtch");
+
+        let (m, p) = (self.data.len(), rhs.data.len());
+
+        let mut result_matrix = vec![vec![self.data[0][0];  m]; p];
+        
+        for i in 0..m {
+            for j in 0..rhs_cols{
+                let mut sum = 0.0;
+
+                for k in 0..lhs_row {
+                    sum =  sum + self.data[i][k] * rhs.data[k][j];
+                }
+
+                result_matrix[i][j] = sum;
+            }
+        }
+
+        Tensor::new(result_matrix, vec![m, p])
+    }
+}
