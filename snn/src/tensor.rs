@@ -1,5 +1,5 @@
 use rand::Rng;
-use std::{ops::{Add, Mul}};
+use std::ops::{Add, Mul};
 
 
 #[derive(Debug)]
