@@ -2,7 +2,7 @@ use rand::Rng;
 use std::ops::{Add, Mul};
 
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Tensor {
     data: Vec<Vec<f32>>,
     shape: Vec<usize>
@@ -29,7 +29,7 @@ impl Tensor {
         Tensor {data: data, shape: shape}
     }
 
-    pub fn shape(&self) -> &[usize] {
+    pub fn shape(&self) -> &Vec<usize> {
         &self.shape
     }
 
@@ -37,9 +37,9 @@ impl Tensor {
         &self.data
     }
 
-    pub fn data_mutable(&mut self) -> &mut Vec<Vec<f32>>{
-        &mut self.data
-    }
+    // pub fn data_mutable(&mut self) -> &mut Vec<Vec<f32>>{
+    //     &mut self.data
+    // }
 
     pub fn transpose(&self) -> Self {
         let (rows, cols) = (self.shape[0], self.shape[1]);
@@ -79,25 +79,20 @@ impl Mul for Tensor {
     type Output = Tensor;
 
     fn mul(self, rhs: Self) -> Self::Output {
-        let (lhs_row, rhs_cols) = (self.data.len(), rhs.data[0].len());
-        assert_eq!(lhs_row, rhs_cols, "Matrix dimention misamtch");
+        let (lhs_rows, lhs_cols) = (self.shape[0], self.shape[1]);
+        let (rhs_rows, rhs_cols) = (rhs.shape[0], rhs.shape[1]);
+        assert_eq!(lhs_cols, rhs_rows, "Matrix dimensions mismatch for multiplication");
 
-        let (m, p) = (self.data.len(), rhs.data.len());
-
-        let mut result_matrix = vec![vec![self.data[0][0];  m]; p];
-        
-        for i in 0..m {
-            for j in 0..rhs_cols{
+        let mut result_data = vec![vec![0.0; rhs_cols]; lhs_rows];        
+        for i in 0..lhs_rows {
+            for j in 0..rhs_cols {
                 let mut sum = 0.0;
-
-                for k in 0..lhs_row {
-                    sum =  sum + self.data[i][k] * rhs.data[k][j];
+                for k in 0..lhs_cols {
+                    sum += self.data[i][k] * rhs.data[k][j];
                 }
-
-                result_matrix[i][j] = sum;
+                result_data[i][j] = sum;
             }
         }
-
-        Tensor::new(result_matrix, vec![m, p])
+        Tensor::new(result_data, vec![lhs_rows, rhs_cols])
     }
 }
