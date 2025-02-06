@@ -29,6 +29,15 @@ impl Tensor {
         Tensor {data: data, shape: shape}
     }
 
+    pub fn zeros (shape: Vec<usize>) -> Self {
+
+        let column_size = shape[1];
+        let row_size = shape[0];
+
+        let data = vec![vec![0.0; column_size]; row_size];
+        Tensor {data: data, shape: shape}
+    }
+
     pub fn shape(&self) -> &Vec<usize> {
         &self.shape
     }

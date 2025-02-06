@@ -1,4 +1,5 @@
 mod tensor;
+mod network;
 use tensor::Tensor;
 
 fn main() {
