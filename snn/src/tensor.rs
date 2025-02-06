@@ -46,9 +46,9 @@ impl Tensor {
         &self.data
     }
 
-    // pub fn data_mutable(&mut self) -> &mut Vec<Vec<f32>>{
-    //     &mut self.data
-    // }
+    pub fn data_mutable(&mut self) -> &mut Vec<Vec<f32>>{
+        &mut self.data
+    }
 
     pub fn transpose(&self) -> Self {
         let (rows, cols) = (self.shape[0], self.shape[1]);
