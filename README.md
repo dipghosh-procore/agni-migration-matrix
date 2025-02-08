@@ -1,2 +1,2 @@
 # Agni-migration-matrix
-AMM is a migration tool which is build to support our project in DFS
+AMM is a migration tool Which is an AI-based framework for database migration strategies.
