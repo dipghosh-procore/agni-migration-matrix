@@ -1,5 +1,5 @@
 use rand::Rng;
-use std::ops::{Add, Mul};
+use std::ops::{Add, Mul, Sub};
 
 
 #[derive(Debug, Clone)]
@@ -80,6 +80,20 @@ impl  Add for Tensor {
             }
         }
         Tensor::new(sum, vec![rows, cols])
+    }
+}
+
+impl Sub for Tensor {
+    type Output = Tensor;
+
+    fn sub(self, other: Self) -> Self {
+        assert_eq!(self.data.len(), other.data.len(), "Tensor must have the same length");
+        let (rows, cols) = (self.shape[0], self.shape[1]);
+        let mut subs = vec![vec![self.data[0][0]; cols]; rows]; 
+
+        (0..rows).for_each(|i| (0..cols).for_each(|j| subs[i][j] = self.data[i][j] - other.data[i][j]));
+        Tensor::new(subs, vec![rows, cols])
+
     }
 }
 
